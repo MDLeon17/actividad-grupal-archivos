@@ -323,7 +323,58 @@ def mostrar_datos_recuperados():
     except FileNotFoundError:
         print("\nEl archivo todavía no existe.")
         
+def buscar_registro(carnet_buscado):
+    try:
+        with open(ARCHIVO, "rb") as archivo:
 
+            while True:
+                # Guardamos la posición donde inicia el registro.
+                posicion = archivo.tell()
+
+                registro = leer_registro(archivo)
+
+                if registro is None:
+                    break
+
+                carnet = registro[0]
+
+                if carnet == carnet_buscado:
+                    nombre = registro[1]
+                    dia = registro[2]
+                    mes = registro[3]
+                    anio = registro[4]
+                    carrera = registro[5]
+                    curso = registro[6]
+                    observaciones = registro[7]
+                    estado_academico = registro[8]
+                    historial = registro[9]
+                    telefono = registro[10]
+                    nota_final = registro[11]
+
+                    if estado_academico:
+                        estado = "Activo"
+                    else:
+                        estado = "Inactivo"
+
+                    print("\nRegistro encontrado")
+                    print("Posición inicial:", posicion)
+                    print("Carnet:", carnet)
+                    print("Nombre:", nombre)
+                    print("Fecha de nacimiento:", dia, "/", mes, "/", anio)
+                    print("Carrera:", carrera)
+                    print("Curso:", curso)
+                    print("Observaciones académicas:", observaciones)
+                    print("Estado académico:", estado)
+                    print("Historial académico:", historial)
+                    print("Número de teléfono:", telefono)
+                    print("Nota final:", nota_final)
+
+                    return
+
+            print("\nRegistro no encontrado.")
+
+    except FileNotFoundError:
+        print("\nEl archivo todavía no existe.")
 
 while True:
     print("\nMenú de opciones:")
@@ -352,6 +403,8 @@ while True:
         
         case "4":
             print("\nBuscar un registro por su identificador")
+            carnet_buscado = int(input("Ingrese el carnet que desea buscar: "))
+            buscar_registro(carnet_buscado)
         
         case "5":
             print("\nMostrar la posición inicial de cada registro")
