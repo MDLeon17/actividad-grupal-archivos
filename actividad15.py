@@ -276,6 +276,54 @@ def leer_todos_registros():
 
     except FileNotFoundError:
         print("\nEl archivo todavía no existe.")
+        
+def mostrar_datos_recuperados():
+    try:
+        with open(ARCHIVO, "rb") as archivo:
+            numero_registro = 1
+
+            while True:
+                registro = leer_registro(archivo)
+
+                if registro is None:
+                    break
+
+                carnet = registro[0]
+                nombre = registro[1]
+                dia = registro[2]
+                mes = registro[3]
+                anio = registro[4]
+                carrera = registro[5]
+                curso = registro[6]
+                observaciones = registro[7]
+                estado_academico = registro[8]
+                historial = registro[9]
+                telefono = registro[10]
+                nota_final = registro[11]
+
+                if estado_academico:
+                    estado = "Activo"
+                else:
+                    estado = "Inactivo"
+
+                print("\nRegistro", numero_registro)
+                print("Carnet:", carnet)
+                print("Nombre:", nombre)
+                print("Fecha de nacimiento:", dia, "/", mes, "/", anio)
+                print("Carrera:", carrera)
+                print("Curso:", curso)
+                print("Observaciones académicas:", observaciones)
+                print("Estado académico:", estado)
+                print("Historial académico:", historial)
+                print("Número de teléfono:", telefono)
+                print("Nota final:", nota_final)
+
+                numero_registro += 1
+
+    except FileNotFoundError:
+        print("\nEl archivo todavía no existe.")
+        
+
 
 while True:
     print("\nMenú de opciones:")
@@ -300,6 +348,7 @@ while True:
         
         case "3":
             print("\nMostrar los datos recuperados correctamente")
+            mostrar_datos_recuperados()
         
         case "4":
             print("\nBuscar un registro por su identificador")
