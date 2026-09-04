@@ -28,6 +28,7 @@ Campos existentes en el archivo binario:
 """
 
 import struct
+from unittest import case
 
 ARCHIVO = "datos.bin"
 
@@ -376,6 +377,66 @@ def buscar_registro(carnet_buscado):
     except FileNotFoundError:
         print("\nEl archivo todavía no existe.")
 
+def mostrar_posiciones_registros():
+    try:
+        with open(ARCHIVO, "rb") as archivo:
+            numero_registro = 1
+
+            while True:
+                # Guardamos la posición antes de leer el registro.
+                posicion_inicial = archivo.tell()
+
+                registro = leer_registro(archivo)
+
+                if registro is None:
+                    break
+
+                print(
+                    "Registro",
+                    numero_registro,
+                    "- Posición inicial:",
+                    posicion_inicial
+                )
+
+                numero_registro += 1
+
+    except FileNotFoundError:
+        print("\nEl archivo todavía no existe.")
+
+
+def mostrar_bytes_registros():
+    try:
+        with open(ARCHIVO, "rb") as archivo:
+            numero_registro = 1
+
+            while True:
+                # Posición donde inicia el registro.
+                posicion_inicial = archivo.tell()
+
+                registro = leer_registro(archivo)
+
+                if registro is None:
+                    break
+
+                # Después de leer el registro completo,
+                # obtenemos la posición final.
+                posicion_final = archivo.tell()
+
+                # Calculamos cuántos bytes ocupa.
+                tamanio_registro = posicion_final - posicion_inicial
+
+                print(
+                    "Registro",
+                    numero_registro,
+                    "- Bytes utilizados:",
+                    tamanio_registro
+                )
+
+                numero_registro += 1
+
+    except FileNotFoundError:
+        print("\nEl archivo todavía no existe.")
+
 while True:
     print("\nMenú de opciones:")
     print("1. Registrar información.")
@@ -408,12 +469,15 @@ while True:
         
         case "5":
             print("\nMostrar la posición inicial de cada registro")
-        
+            mostrar_posiciones_registros()
+
         case "6":
             print("\nMostrar cuántos bytes ocupa cada registro")
-        
+            mostrar_bytes_registros()
+
         case "7":
             print("\nMostrar el tamaño total del archivo")
+            mostrar_tamanio_archivo()
         
         case "8":
             print("\nSaliendo del programa...")
